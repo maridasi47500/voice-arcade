@@ -103,6 +103,8 @@ google-oauthlib-tool --client-secrets /path/to/your/credentials.json --scope htt
 
 ```sh
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-assistant-sdk[samples] google-cloud-speech pychromecast speechrecognition
+pip install google-auth google-auth-oauthlib google-assistant-sdk
+
 ```
 
 
