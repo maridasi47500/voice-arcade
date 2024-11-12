@@ -1,18 +1,30 @@
 import pychromecast
 import speech_recognition as sr
 import wave
+r = sr.Recognizer()
 
 CAST_IP = "192.168.1.10"
 
-try:
-    chromecast = pychromecast.Chromecast(CAST_IP)
-    chromecast.wait()
-    device_info = chromecast.device
-    print(f"Connected to {device_info.friendly_name} at {device_info.host}")
-except Exception as e:
-    print(f"An error occurred: {e}")
+# Discover Chromecasts on the network
+chromecasts, browser = pychromecast.get_listed_chromecasts(friendly_names=["Bureau"])
 
-r = sr.Recognizer()
+if len(chromecasts) == 0:
+    print("No Chromecasts found")
+    exit(1)
+
+chromecast = chromecasts[0]
+chromecast.wait()
+
+device_info = chromecast.cast_info
+
+# Debug: Print the type and value of device_info
+print(f"Type of device_info: {type(device_info)}")
+print(f"Value of device_info: {device_info}")
+
+if hasattr(device_info, 'cast_type'):
+    print(f"Connected to {device_info.friendly_name} at {device_info.host}")
+else:
+    print("The device_info object does not have a cast_type attribute.")
 
 try:
     with sr.Microphone() as source:
